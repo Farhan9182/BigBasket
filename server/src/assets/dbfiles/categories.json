@@ -1,0 +1,28 @@
+[
+    {
+      "name": "Fruits and Vegetables",
+      "subcategories": [
+        {
+          "name": "Cuts and Sprouts",
+          "subsubcategories": ["Organic Cuts", "Organic Sprouts"]
+        },
+        {
+          "name": "Exotic fruits and Veggies",
+          "subsubcategories": ["Organic Fruits", "Organic Vegetables"]
+        }
+      ]
+    },
+    {
+      "name": "Beverages",
+      "subcategories": [
+        {
+          "name": "Tea and Coffee",
+          "subsubcategories": ["Organic Tea", "Organic Coffee"]
+        },
+        {
+          "name": "Fruit Juice",
+          "subsubcategories": ["Organic Juice"]
+        }
+      ]
+    }
+  ]

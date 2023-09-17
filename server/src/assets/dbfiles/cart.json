@@ -1,0 +1,12 @@
+[
+    {
+        "userId": 1,
+        "items": [
+            {
+                "productId": 1,
+                "name": "Coriander Leafs",
+                "image": "https://firebasestorage.googleapis.com/v0/b/my-first-project-29bc7.appspot.com/o/JobRobo%2FproductImages%2Fproduct1.jpg?alt=media&token=015466bf-2622-4344-bb75-443fe2c0140f"
+            }
+        ]
+    }
+]

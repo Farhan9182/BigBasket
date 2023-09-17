@@ -1,0 +1,42 @@
+[
+    {
+        "id": 1,
+        "name": "Coriander Leafs",
+        "image": "https://firebasestorage.googleapis.com/v0/b/my-first-project-29bc7.appspot.com/o/JobRobo%2FproductImages%2Fproduct1.jpg?alt=media&token=015466bf-2622-4344-bb75-443fe2c0140f",
+        "category": "Fruits and Vegetables",
+        "subcategory": "Exotic fruits and Veggies",
+        "sub_subcategory": "Organic Vegetables"
+    },
+    {
+        "id": 2,
+        "name": "Cucumber (loose)",
+        "image": "https://firebasestorage.googleapis.com/v0/b/my-first-project-29bc7.appspot.com/o/JobRobo%2FproductImages%2Fproduct2.jpg?alt=media&token=987f0b65-2db8-4e5c-8128-f1455295f25d",
+        "category": "Fruits and Vegetables",
+        "subcategory": "Cuts and Sprouts",
+        "sub_subcategory": "Organic Cuts"
+    },
+    {
+        "id": 3,
+        "name": "Ladies Finger (loose)",
+        "image": "https://firebasestorage.googleapis.com/v0/b/my-first-project-29bc7.appspot.com/o/JobRobo%2FproductImages%2Fproduct3.jpg?alt=media&token=b3ec3802-639d-4651-9afb-0910a056f241",
+        "category": "Fruits and Vegetables",
+        "subcategory": "Exotic fruits and Veggies",
+        "sub_subcategory": "Organic Vegetables"
+    },
+    {
+        "id": 4,
+        "name": "Onion",
+        "image": "https://firebasestorage.googleapis.com/v0/b/my-first-project-29bc7.appspot.com/o/JobRobo%2FproductImages%2Fproduct4.jpg?alt=media&token=d3afdecd-8fe1-486c-a1e8-615e26dfd0c3",
+        "category": "Fruits and Vegetables",
+        "subcategory": "Cuts and Sprouts",
+        "sub_subcategory": "Organic Cuts"
+    }, 
+    {
+        "id": 5,
+        "name": "Tea",
+        "image": "",
+        "category": "Beverages",
+        "subcategory": "Tea and Coffee",
+        "sub_subcategory": "Organic Tea"
+    }
+]
