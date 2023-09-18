@@ -2,18 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from './AuthContext';
 import '../styles.css';
 
-function Login() {
+function Login({onClose}) {
   const { login } = useAuth();
   const [userId, setUserId] = useState('');
   const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState('');
-  const [tokenExpiration, setTokenExpiration] = useState(null);
 
-  // Simulate token expiration (in seconds)
+  // Default token expiration (in seconds)
   const tokenExpirationInSeconds = 3600; // Adjust as needed
 
   useEffect(() => {
-    // When the component mounts, check if a token is stored in localStorage
     const storedToken = localStorage.getItem('authToken');
     const storedExpiration = localStorage.getItem('tokenExpiration');
 
@@ -28,22 +26,20 @@ function Login() {
   }, [login]);
 
   const handleLogin = async () => {
-    // Implement your login API call here to get the JWT token
     try {
-      // Simulate API call with userId and password
-      // const response = await fetch('/api/login', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      //   body: JSON.stringify({ userId, password }),
-      // });
+      const response = await fetch('http://localhost:5000/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username: userId, password }),
+      });
 
-      if (true) {
-        // const data = await response.json();
+      if (response.ok) {
+        const {token} = await response.json();
 
         // Set the token in localStorage and update tokenExpiration
-        localStorage.setItem('authToken', "myJWTtoken");
+        localStorage.setItem('authToken', token);
 
         const currentTime = Math.floor(Date.now() / 1000);
         const expirationTime = currentTime + tokenExpirationInSeconds;
@@ -58,6 +54,13 @@ function Login() {
       console.error('Error logging in:', error);
       setLoginError('An error occurred while logging in.');
     }
+  };
+
+  const handleClose = () => {
+    setUserId(''); // Reset user input fields
+    setPassword('');
+    setLoginError(''); // Clear any error messages
+    onClose(); // Call the onClose callback from the parent component
   };
 
   return (
@@ -89,6 +92,13 @@ function Login() {
           onClick={handleLogin}
         >
           Login
+        </button>
+        <button
+          type="button"
+          className="bg-gray-300 text-gray-600 px-4 py-2 rounded ml-2 hover:bg-gray-400"
+          onClick={handleClose} // Close the login overlay
+        >
+          Close
         </button>
       </div>
     </div>

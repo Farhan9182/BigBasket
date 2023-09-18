@@ -1,31 +1,69 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ProductTile from './ProductTile';
+import { useAuth } from './AuthContext';
 import '../styles.css';
 
-function Products({ selectedCategory, searchTerm, cartItems, setCartItems }) {
-  // Sample data, replace with your actual product data
-  const products = [
-    { id: 1, name: 'Product 1', image: 'https://firebasestorage.googleapis.com/v0/b/my-first-project-29bc7.appspot.com/o/JobRobo%2FproductImages%2Fproduct1.jpg?alt=media&token=015466bf-2622-4344-bb75-443fe2c0140f', category: 'category_1', subcategory: 'subCategory_1.1', sub_subcategory: 'subCategory_1.1.1' },
-    { id: 2, name: 'Product 2', image: 'https://firebasestorage.googleapis.com/v0/b/my-first-project-29bc7.appspot.com/o/JobRobo%2FproductImages%2Fproduct2.jpg?alt=media&token=987f0b65-2db8-4e5c-8128-f1455295f25d', category: 'category_2', subcategory: 'subCategory_2.1', sub_subcategory: 'subCategory_2.1.1' },
-    { id: 3, name: 'Product 3', image: 'https://firebasestorage.googleapis.com/v0/b/my-first-project-29bc7.appspot.com/o/JobRobo%2FproductImages%2Fproduct3.jpg?alt=media&token=b3ec3802-639d-4651-9afb-0910a056f241', category: 'category_3', subcategory: 'subCategory_3.1', sub_subcategory: 'subCategory_3.1.1' },
-    { id: 4, name: 'Product 4', image: 'https://firebasestorage.googleapis.com/v0/b/my-first-project-29bc7.appspot.com/o/JobRobo%2FproductImages%2Fproduct4.jpg?alt=media&token=d3afdecd-8fe1-486c-a1e8-615e26dfd0c3', category: 'category_4', subcategory: 'subCategory_4.1', sub_subcategory: 'subCategory_4.1.1' },
-    { id: 5, name: 'Product 5', image: 'product5.jpg', category: 'category_5', subcategory: 'subCategory_5.1', sub_subcategory: 'subCategory_5.1.1' },
-    // Add more product objects
-  ];
+function Products({ selectedCategory, searchTerm, cartItems, setCartItems, openLogin }) {
+  const [products, setProducts] = useState([]);
+  const { isLoggedIn, login } = useAuth();
+  useEffect(() => {
+    async function getProducts () {
+      const response = await fetch('http://localhost:5000/products/products', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
 
-  const addToCart = (product) => {
-    // Make an API request to save the item to the backend
-    
-    // Add the item to the cart state
-    setCartItems([...cartItems, product]);
+      if (response.ok) {
+        const productsData = await response.json();
+        console.log("Products: ", productsData);
+        setProducts(productsData);
+      }
+    }
+    getProducts();
+  }, []);
+
+  const addToCart = async (product) => {
+    if (isLoggedIn) {
+      const getToken = () => localStorage.getItem('authToken');
+      // Make an API request to save the item to user's cart
+      const response = await fetch('http://localhost:5000/cart/cart', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${getToken()}`
+        },
+        body: JSON.stringify({product}),
+      });
+
+      if (response.ok) {
+        // Add the item to the cart state
+        setCartItems([...cartItems, product]);
+      }
+    } else {
+      alert("Plese login first...");
+      openLogin();
+    }
   };
 
-  const removeFromCart = (product) => {
-    // Make an API request to save the item to the backend
+  const removeFromCart = async(product) => {
+    const getToken = () => localStorage.getItem('authToken');
+    // Make an API request to remove the item from user cart
+    const response = await fetch('http://localhost:5000/cart/cart', {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${getToken()}`
+      },
+      body: JSON.stringify({productId: product.id}),
+    });
 
-    // Remove the item from the cart state
-    const updatedCart = cartItems.filter((item) => item.productId !== product.id);
-    setCartItems(updatedCart);
+    if (response.ok) {
+      // Remove the item from the cart state
+      const updatedCart = cartItems.filter((item) => item.id !== product.id);
+      setCartItems(updatedCart);
+    }
   };
 
   // Filter products based on selected category and search term
@@ -45,6 +83,7 @@ function Products({ selectedCategory, searchTerm, cartItems, setCartItems }) {
 
   return (
     <div className="container mx-auto my-4">
+      <span className='ml-4 font-bold'>My Smart Basket</span>
       {/* Product slider */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
       {filteredProducts.map((product) => (
@@ -53,7 +92,7 @@ function Products({ selectedCategory, searchTerm, cartItems, setCartItems }) {
             product={product}
             onAddToCart={addToCart}
             onRemoveFromCart={removeFromCart} // Pass the removeFromCart function
-            isInCart={cartItems.some((item) => item.productId === product.id)} // Check if the product is in the cart
+            isInCart={cartItems.some((item) => item.id === product.id)} // Check if the product is in the cart
           />
         ))}
       </div>
