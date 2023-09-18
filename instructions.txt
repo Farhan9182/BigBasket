@@ -1,0 +1,16 @@
+Tech Stack:
+Frontend - ReactJs, TailwindCss
+Backend - Nodejs, ExpressJs, Mongoose
+Database - MongoDB
+
+ENV Variables for "Server":
+JWT_SECRET="TFnanQakzP"
+MONGODB_URI=mongodb+srv://farhaankhaan930:SpotLight123@spotlightapp.qytcebc.mongodb.net/?retryWrites=true&w=majority
+
+JSON files for MongoDB import is also included in Server->src->Assests->dbfiles
+
+To run the client:
+Naigate to "client" directory and run "npm start"
+
+To run the server:
+Navigate to "server" directory and run "npm start"
